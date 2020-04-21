@@ -9,5 +9,8 @@
  * @author leon
  */
 public enum Presentation {
+    ABREGE,
+    SIMPLE,
+    COMPLET;
     
 }

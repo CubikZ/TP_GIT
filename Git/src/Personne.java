@@ -23,6 +23,7 @@ public class Personne {
         societe=societe2;
         fonction=fonction2;
     }
+    
     //Accesseurs
     public String getNom()
     { return nom ; }

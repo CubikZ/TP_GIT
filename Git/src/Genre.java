@@ -9,5 +9,7 @@
  * @author leon
  */
 public enum Genre {
+    HOMME,
+    FEMME;
     
 }
