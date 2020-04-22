@@ -5,10 +5,9 @@
  */
 package carnet;
 
-/**
- *
- * @author leon
- */
+import entree.Entree;
+
 public class Carnet {
-    
+    Entree[] entree;
+    Entree[] selectionnees;
 }
