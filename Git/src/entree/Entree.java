@@ -11,5 +11,7 @@ package entree;
  * @author leon
  */
 public interface Entree {
-
+    
+    public String toString(Presentation presentation, Sens sens);
+    public boolean recherche(String recherche);
 }
