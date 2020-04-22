@@ -10,4 +10,9 @@ import entree.Entree;
 public class Carnet {
     Entree[] entree;
     Entree[] selectionnees;
+    
+    Carnet(Entree[] entree, Entree[] selectionnees){
+        this.entree = entree;
+        this.selectionnees = selectionnees;
+    }
 }
