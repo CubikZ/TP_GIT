@@ -10,7 +10,7 @@ package entree;
  *
  * @author loann
  */
-public class Societe {
+public class Societe implements Entree{
     private String raisonSociale;
     
     public Societe(){
@@ -31,9 +31,16 @@ public class Societe {
         this.raisonSociale = raisonSociale;
     }
     
+    //ToString
     @Override
-    public String toString(){
+    public String toString(Presentation presentation, Sens sens){
         return ("raison Sociale : " + this.raisonSociale);
     }
+    
+    //Recherche
+    @Override
+    public boolean recherche(String recherche){
+        return false;
+    };
         
 }

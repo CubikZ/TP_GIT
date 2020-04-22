@@ -8,7 +8,7 @@ package entree;
 
 import java.util.ArrayList;
 
-public class Personne {
+public class Personne implements Entree{
     String nom;
     ArrayList<String> prenoms = new ArrayList<>();
     Genre genre;
@@ -174,6 +174,11 @@ public class Personne {
         }
         
     }
+    
+    @Override
+    public boolean recherche(String recherche){
+        return false;
+    };
     
     
 }

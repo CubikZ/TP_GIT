@@ -20,7 +20,7 @@ public class TestSociete {
         
         societe.setRaisonSociale("societe2");
         
-        System.out.println(societe.toString());
+        System.out.println(societe.toString(Presentation.ABREGE, Sens.NOM_PRENOMS));
         
     }   
     
