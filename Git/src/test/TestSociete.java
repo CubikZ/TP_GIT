@@ -12,7 +12,7 @@ import entree.*;
  * @author leon
  */
 public class TestSociete {
-    final static Societe societe = new Societe("societe1");
+    final static Societe societe = new Societe(0,"societe1");
     
     public static void main(String[] args){
         
@@ -21,6 +21,8 @@ public class TestSociete {
         societe.setRaisonSociale("societe2");
         
         System.out.println(societe.toString(Presentation.ABREGE, Sens.NOM_PRENOMS));
+        
+        
         
     }   
     

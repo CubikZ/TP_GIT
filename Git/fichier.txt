@@ -1,0 +1,4 @@
+1;SOCIETE;Ecole de sorcellerie Poudlard
+2;PERSONNE;Albus,Perceval,Wulfric,Brian;Dumbledore;H;;1;Directeur
+3;PERSONNE;Harry,James;Potter;H;4;1;Eleve
+4;PERSONNE;Ginny;Weasley;F;3;1;Eleve

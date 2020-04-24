@@ -15,9 +15,11 @@ public class Personne implements Entree{
     Personne conjoint=null;
     Societe societe=null;
     String fonction;
+    int id;
     
-    public Personne (String nom2, ArrayList<String> prenoms2,Genre genre2, Personne conjoint2, Societe societe2, String fonction2)
+    public Personne (int id2,String nom2, ArrayList<String> prenoms2,Genre genre2, Personne conjoint2, Societe societe2, String fonction2)
     {
+        id=id2;
         nom=nom2;
         prenoms.addAll(prenoms2);
         genre=genre2;
@@ -29,6 +31,11 @@ public class Personne implements Entree{
     //Accesseurs
     public String getNom()
     { return nom ; }
+    
+    public int getID()
+    {
+        return id;
+    }
     
     public String getPrenoms()
     { 
@@ -102,11 +109,13 @@ public class Personne implements Entree{
     {
         societe=societe2;
     }
+    
     public void setFonction(String fonction2)
     {
         fonction=fonction2;
     }
     
+    @Override
     public String toString(Presentation presentation, Sens sens)
     {
         switch (presentation) {
@@ -156,19 +165,20 @@ public class Personne implements Entree{
                 if (sens.equals(Sens.NOM_PRENOMS))
                 {
                     return  getGenreINIT()+" "+getNom()+" "+getPrenoms()+"\n"
-                            +"   -Societe  : "+getSociete()+"\n"
+                            +"   -Societe  : "+ societe.getRaisonSociale()+"\n"
                             +"   -Fonction : "+getFonction()+"\n"
-                            +"   -Conjoint : "+getConjoint();
+                            +"   -Conjoint : "+ conjoint.toString(presentation.SIMPLE, sens.NOM_PRENOMS);
                 }
                 
-                if (sens.equals(Sens.PRENOMS_NOM))
+                else if (sens.equals(Sens.PRENOMS_NOM))
                 {
                     return getGenreINIT()+" "+getPrenoms()+" "+getNom()+"\n"
-                           +"   -Societe  : "+getSociete()+"\n"
+                           +"   -Societe  : "+ societe.getRaisonSociale()+"\n"
                            +"   -Fonction : "+getFonction()+"\n"
-                           +"   -Conjoint : "+getConjoint();               
+                           +"   -Conjoint : "+ conjoint.toString(presentation.SIMPLE, sens.PRENOMS_NOM);               
                 }
-                else return "Erreur de sens";
+                else
+                    return "Erreur de sens";
             default:
                 return "Erreur presentation";
         }
