@@ -19,14 +19,14 @@ public class TestPersonne {
         prenoms.add("Vincent");
         prenoms.add("Didier");
         
-        Personne humain1 = new Personne("Paul",prenoms,Genre.HOMME,null,null,null);
-        Societe societe1 = new Societe("Boulanger");
+        Personne humain1 = new Personne(0,"Paul",prenoms,Genre.HOMME,null,null,null);
+        Societe societe1 = new Societe(0,"Boulanger");
         
         prenoms.clear();
         prenoms.add("Patricia");
         prenoms.add("Alexandra");
         
-        Personne humain2 = new Personne("Camille",prenoms,Genre.FEMME,humain1,societe1,null);
+        Personne humain2 = new Personne(1,"Camille",prenoms,Genre.FEMME,humain1,societe1,null);
        
         System.out.println(humain1.getPrenomsINIT());
         System.out.println(humain1.getNom());

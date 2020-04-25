@@ -12,18 +12,25 @@ package entree;
  */
 public class Societe implements Entree{
     private String raisonSociale;
+    private int id;
     
     public Societe(){
         raisonSociale = null;
     }
     
-    public Societe(String raisonSociale){
+    public Societe(int id2,String raisonSociale){
+        id=id2;
         this.raisonSociale = raisonSociale;
+        
     }
     
     //getters
     public String getRaisonSociale(){
         return raisonSociale;
+    }
+    public int getID()
+    {
+        return id;
     }
     
     //setter
@@ -42,5 +49,5 @@ public class Societe implements Entree{
     public boolean recherche(String recherche){
         return false;
     };
-        
+    
 }
