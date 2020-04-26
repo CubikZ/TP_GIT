@@ -5,10 +5,9 @@
  */
 package test;
 import carnet.*;
-import static carnet.Carnet.lectureFichier;
+import entree.Presentation;
+import entree.Sens;
 import java.io.IOException;
-import entree.*;
-import java.util.ArrayList;
 /**
  *
  * @author leon
@@ -16,8 +15,17 @@ import java.util.ArrayList;
 public class TestLecture {
     
     public static void main(String[] args) throws IOException{
-    lectureFichier("fichier.txt");
-    //Entree entree1 = new Societe();
+        
+        Carnet carnet=new Carnet();
+        carnet.lectureFichier("fichier.txt"); //Li le fichier et instancie les Personnes et Société
+        System.out.println("\n");
+        
+        carnet.recherche('c');
+        
+        carnet.recherche("Ecole");
+        carnet.afficher(Ordre.DECROISSANT, Presentation.ABREGE, Sens.NOM_PRENOMS);
+        
+
         
     }   
     

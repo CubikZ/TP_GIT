@@ -26,7 +26,11 @@ public class Societe implements Entree{
     
     //getters
     public String getRaisonSociale(){
-        return raisonSociale;
+        if(raisonSociale!=null)
+            return raisonSociale;
+        else
+            return "Pas de societe";
+                    
     }
     public int getID()
     {
@@ -38,16 +42,19 @@ public class Societe implements Entree{
         this.raisonSociale = raisonSociale;
     }
     
+    public boolean recherche(String raisonSociale)
+    {
+        if(this.raisonSociale.contains(raisonSociale))
+            return true;
+        else
+            return false;     
+    }
+    
     //ToString
     @Override
     public String toString(Presentation presentation, Sens sens){
         return ("raison Sociale : " + this.raisonSociale);
     }
     
-    //Recherche
-    @Override
-    public boolean recherche(String recherche){
-        return false;
-    };
     
 }

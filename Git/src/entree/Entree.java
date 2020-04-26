@@ -12,6 +12,6 @@ package entree;
  */
 public interface Entree {
     
-    public String toString(Presentation presentation, Sens sens);
-    public boolean recherche(String recherche);
+    public String toString(Presentation presentation,Sens sens);
+    //public boolean recherche(String recherche);
 }

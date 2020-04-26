@@ -16,31 +16,41 @@ import entree.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 
+//Pour trier
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+
 
 
 public class Carnet {
-    ArrayList<Entree> listEntree = new ArrayList<Entree>(); // Create an ArrayList object
-    ArrayList<Entree> listselectionnees = new ArrayList<Entree>(); // Create an ArrayList object
+    private ArrayList<Entree> listEntree; // type Entree = just utile pour le toString 
+    private ArrayList<Entree> listSelectionnees ; // Pour les afficher après la selection
+    private ArrayList<Personne> listPersonne; //Utile pour les manipulations
+    private ArrayList<Societe> listSociete;
     
     //Constructeur
-    Carnet(Entree entree, Entree selectionnees){
-        listEntree.add(entree);
+    public Carnet(Entree entree, Entree selectionnees){
+        listEntree=null;
+        listSelectionnees=null;
+    }
+    public Carnet()
+    {
+        listEntree  = new ArrayList<>();
+        listSelectionnees = new ArrayList<>();
+        listPersonne = new ArrayList<>();
+        listSociete = new ArrayList<>();
     }
     
     //Methode Lecture de Fichier
-    public static void lectureFichier(String lienFichier) throws IOException{
-        
-        
-        ArrayList<Personne> listpersonne = new ArrayList<>(); //liste des personnes
-        ArrayList<Societe> listsociete = new ArrayList<>(); //liste des societe
-        
-        
+    public void lectureFichier(String lienFichier) throws IOException{
+       
         //Fichier
         File file = new File(lienFichier); 
         BufferedReader in = null ;
         
         //Separateur
-        final String SEPARATEUR = ";";
+        String SEPARATEUR = ";";
         String line;
         
         int ID = 0; //ID de la ligne
@@ -49,7 +59,7 @@ public class Carnet {
         //variable pour SOCIETE
         String raisonSociale;
         int ID_societe;
-        ArrayList<Integer> idSAVEs = new ArrayList<>();
+        ArrayList<Integer> idSAVEs = new ArrayList<>(); //Sauvegarde les id des societe que les personne ont
         
         //variable pour PERSONNE
         String nom=null;
@@ -60,8 +70,9 @@ public class Carnet {
         String fonction=null;
         
         //variable conjoint
-        ArrayList<Integer> idSAVEc=new ArrayList<>();
+        ArrayList<Integer> idSAVEc=new ArrayList<>(); //Sauvegarde les id des conjoints que les personne ont
         
+        System.out.println("Début du scan du fichier...");
         try //Essai d'ouvrir le fichier
         {
             in = new BufferedReader(new FileReader(file));
@@ -75,8 +86,8 @@ public class Carnet {
         {
             
             
-            //affichage des ligne 
-            System.out.println(line);
+            //affichage des ligne lue
+            //System.out.println(line);
             
             //Separation de la ligne en champ separer par ";"
             String mots[] = line.split(SEPARATEUR);
@@ -89,8 +100,8 @@ public class Carnet {
                     case "SOCIETE" :
                             ID = Integer.parseInt(mots[0]); //ID de la ligne
                             raisonSociale = mots[2];
-                            listsociete.add(new Societe(ID,raisonSociale));
-                            System.out.println("OK SOCIETE");
+                            listSociete.add(new Societe(ID,raisonSociale));
+                            
                             break;
                         
                     case "PERSONNE" :
@@ -143,10 +154,10 @@ public class Carnet {
                         //fonction
                         fonction = mots[7];
                         
-                        //creation d' objet dans listpersonne
-                        listpersonne.add(new Personne(ID,nom, listprenom,genre, conjoint,societe,fonction));
+                        //creation d' objet dans listPersonne
+                        listPersonne.add(new Personne(ID,nom, listprenom,genre, conjoint,societe,fonction));
                      
-                        System.out.println("OK Personne");
+                        
                         break;
                         
                     default:
@@ -164,11 +175,11 @@ public class Carnet {
         {
             if (idSAVEc.get(i)!=null)
             {
-                for(int j=0;j<listpersonne.size();j++)  //On parcourt la liste a la recherche du meme id
+                for(int j=0;j<listPersonne.size();j++)  //On parcourt la liste a la recherche du meme id
                 {
-                    if(listpersonne.get(j).getID()== idSAVEc.get(i))
+                    if(listPersonne.get(j).getID()== idSAVEc.get(i))
                     {
-                        listpersonne.get(j).setConjoint(listpersonne.get(i));   //modification du conjoint 
+                        listPersonne.get(i).setConjoint(listPersonne.get(j));   //modification du conjoint 
                     }
                 }
             }
@@ -178,21 +189,213 @@ public class Carnet {
         {
             if (idSAVEs.get(i)!=null)
             {
-                for(int j=0;j<listsociete.size();j++)  //On parcourt la liste a la recherche du meme id
+                for(int j=0;j<listSociete.size();j++)  //On parcourt la liste a la recherche du meme id
                 {
-                    if(listsociete.get(j).getID()== idSAVEs.get(i))
+                    if(listSociete.get(j).getID()== idSAVEs.get(i))
                     {
-                        listpersonne.get(i).setSociete(listsociete.get(j)); //modification de la societe 
+                        listPersonne.get(i).setSociete(listSociete.get(j)); //modification de la societe 
                     }
                 }
             }
         }
+       System.out.println("Scan du fichier terminé");
+       ajoutEntree(listPersonne,listSociete);
         
-        //Affichage de la liste des personnes 
-        for(int i=0;i<listpersonne.size();i++)
-            System.out.println(listpersonne.get(i).toString(Presentation.COMPLET, Sens.NOM_PRENOMS));
+        
+        
         
         
     }
+    
+    private void ajoutEntree(ArrayList<Personne> listPersonne,ArrayList<Societe> listSociete)
+    {
+        System.out.println("Création de la listeEntree et ajout des entitées");
+        //Ajout des société a listEntree
+        for(int i=0;i<listSociete.size();i++)
+            listEntree.add(listSociete.get(i));
+        //Affichage de la liste des personnes 
+        for(int i=0;i<listPersonne.size();i++)
+            listEntree.add(listPersonne.get(i));
+        System.out.println("Création et ajout réussie");
         
+        
+    }
+    
+    public void selection(String nom) //avec le nom
+    {
+        boolean resultat=false;
+        for(int i=0;i<listPersonne.size();i++)
+        {
+            if(listPersonne.get(i).getNom().equals(nom) || listPersonne.get(i).getPrenoms().contains(nom)) //On regarde si il contient le string
+            {
+                listSelectionnees.add(listPersonne.get(i));
+                resultat=true;
+                System.out.println(listPersonne.get(i).getNom()+" ajoutee a la selection");
+            }
+        }
+        if(!resultat)
+            System.out.println("Aucun nom / prenom trouver contenant "+nom+". Selection non reussie");
+        
+    }
+    
+    public void selection(Entree selection)
+    {
+        if(listSelectionnees.add(selection))
+            System.out.println("Ajout reussie de l'objet a la selection");
+        else
+            System.out.println("Erreur, selection non reussie");
+        
+    }
+    public void selection(ArrayList<Entree> selection)
+    {
+        if(listSelectionnees.addAll(selection))
+            System.out.println("Ajout reussie de la liste a la selection");
+        else
+            System.out.println("Erreur, selection non reussie");
+    }
+    public void deselection()
+    {
+        listSelectionnees.clear();
+    }
+    public void recherche(char lettre) //Recherche Personne
+    {
+        boolean trouver=false;  //Permet de savoir si on trouve au moins 1 personne
+        System.out.println("la(Les) personne contenant le caractère "+lettre+" sont :");
+        for(int i=0;i<listPersonne.size();i++)
+        {
+            
+            if(listPersonne.get(i).recherche(lettre)) //Pour pas qu'il traite les société
+            {
+                System.out.println(listPersonne.get(i).toString(Presentation.ABREGE, Sens.NOM_PRENOMS));
+                trouver=true;
+            }
+        }
+        if (trouver==false)
+        {
+            System.out.println("Aucune personne trouvée contenant le caractère "+lettre);
+        }
+    }
+    public void recherche(String raisonSociale) //Recherche Societe
+    {
+        boolean trouver=false; //Permet de savoir si on trouve au moins 1 societe
+        
+        System.out.println("la(Les) société contenant la chaine "+raisonSociale+" sont :");
+        for (int i=0;i<listSociete.size();i++)
+        {
+            if(listSociete.get(i).recherche(raisonSociale))
+            {
+                System.out.println(listSociete.get(i).toString(Presentation.ABREGE, Sens.NOM_PRENOMS));
+                trouver=true;
+            }
+        }
+        if (trouver==false)
+        {
+            System.out.println("Aucune societe trouvée contenant la chaine "+raisonSociale);
+        }
+    }
+
+    public void afficher(Ordre ordre,Presentation presentation, Sens sens)
+    {
+        switch(ordre)
+        {
+            case CROISSANT:
+                //Trier par ordre croissant ...
+                System.out.println("\n Trie par ordre Croissant : ");
+        
+                // ... la liste personne par noms
+                System.out.println("\nListe des Personnes : ");
+                Collections.sort(listPersonne, ComparatorNom);
+                //Affichage de la Liste Personne
+                for (int i = 0; i < listPersonne.size(); i++){
+                    System.out.println(listPersonne.get(i).toString(presentation, sens)); 
+                }
+                
+                //... la liste de Societe par Raison Social
+                System.out.println("\nListe des Societes : ");
+                Collections.sort(listSociete, ComparatorRaisonSocial);
+                //Affichage de la Liste Societe
+                for (int i = 0; i < listSociete.size(); i++){
+                    System.out.println(listSociete.get(i).toString(presentation, sens)); 
+                }
+                
+                break;
+                
+            case DECROISSANT:
+                //Trier par ordre decroissant ...
+                System.out.println("\nTrie par ordre Decroissant : ");
+                //... la liste des personnes par nom
+                System.out.println("\nListe des Personnes : ");
+                Collections.sort(listPersonne, ComparatorNom); //trie par ordre croissant
+                Collections.reverse(listPersonne); //inverse la liste
+                //Affichage de la Liste Personne
+                for (int i = 0; i < listPersonne.size(); i++){
+                    System.out.println(listPersonne.get(i).toString(presentation, sens)); 
+                }
+        
+                //... la liste de Societe par Raison Social
+                System.out.println("\nListe des Societes : ");
+                Collections.sort(listSociete, ComparatorRaisonSocial); //Trie par ordre croissant
+                Collections.reverse(listSociete);   //Inverse la liste
+                //Affichage de la Liste Societe
+                for (int i = 0; i < listSociete.size(); i++){
+                    System.out.println(listSociete.get(i).toString(presentation, sens)); 
+                }
+                
+                break;
+        }     
+        
+    }
+    
+    
+    public void afficherSelection(Ordre ordre,Presentation presentation, Sens sens)
+    {
+        //Collections.sort(listEntree);
+        //ArrayList<Entree> listePersonne2= new ArrayList<>();
+        //ArrayList<Entree> listeSociete2= new ArrayList<>();
+        //Impossible de convertir un type Entree en  type Personne ou Societe. Comment faire pour trier ?
+        for(int i=0;i<listSelectionnees.size();i++)
+        {
+            System.out.println(listSelectionnees.get(i).toString(presentation, sens));
+        }
+    }
+    
+    /*
+     * Comparator pour le tri des personne par nom 
+     */
+    public static Comparator<Personne> ComparatorNom = new Comparator<Personne>() {
+      
+        @Override
+        public int compare(Personne p1, Personne p2) {
+            return p1.getNom().compareTo(p2.getNom());
+        }
+    };
+    
+    /*
+     * Comparator pour le tri des societe par raison Sociale
+     */
+    
+    public static Comparator<Societe> ComparatorRaisonSocial = new Comparator<Societe>() {
+        @Override
+        public int compare(Societe s1, Societe s2){
+            return s1.getRaisonSociale().compareTo(s2.getRaisonSociale());
+        }
+    };
+    public ArrayList<Personne> getListPersonne()
+    {
+        return listPersonne;
+    }
+    public ArrayList<Societe> getListSociete()
+    {
+        return listSociete;
+    }
+    public ArrayList<Entree> getListEntree()
+    {
+        return listEntree;
+    }
+    
+    
+    //public static Comparator<Entree> ComparatorNomOuRaisonSociale = new Comparator<Entree>() {
+    //    public int compare(Personne, Societe s2){
+     //       return s1.getRaisonSociale().compareTo(s2.getRaisonSociale());
+    //    }
 }
