@@ -19,8 +19,9 @@ public class TestPersonne {
         prenoms.add("Vincent");
         prenoms.add("Didier");
         
-        Personne humain1 = new Personne(0,"Paul",prenoms,Genre.HOMME,null,null,null);
+        
         Societe societe1 = new Societe(0,"Boulanger");
+        Personne humain1 = new Personne(0,"Paul",prenoms,Genre.HOMME,null,societe1,null);
         
         prenoms.clear();
         prenoms.add("Patricia");

@@ -81,10 +81,16 @@ public class Personne implements Entree{
         else return "erreur";
         
     }
-    public Personne getConjoint()
-    { return conjoint ; }
-    public Societe getSociete()
-    { return societe ; }
+    public String getConjoint()
+    { 
+        if (conjoint==null)
+            return "Pas de conjoint";
+        else 
+            return conjoint.getNom();
+    }
+    
+    public String getSociete()
+    { return societe.getRaisonSociale() ; }
     public String getFonction()
     { return fonction ; }
     //Mutateurs
@@ -114,7 +120,15 @@ public class Personne implements Entree{
     {
         fonction=fonction2;
     }
+    public boolean recherche(char lettre) //Recherche si nom ou prenom contient la lettre
+    {
+        String prenomsRecherche=getPrenoms();
+        String nomRecherche=getNom();
+        String lettre2=String.valueOf(lettre); //contains ne marche qu'avec un string, donc je convertie
+        return prenomsRecherche.contains(lettre2)|| nomRecherche.contains(lettre2);
+    }
     
+    //////////////////////
     @Override
     public String toString(Presentation presentation, Sens sens)
     {
@@ -167,7 +181,7 @@ public class Personne implements Entree{
                     return  getGenreINIT()+" "+getNom()+" "+getPrenoms()+"\n"
                             +"   -Societe  : "+ societe.getRaisonSociale()+"\n"
                             +"   -Fonction : "+getFonction()+"\n"
-                            +"   -Conjoint : "+ conjoint.toString(presentation.SIMPLE, sens.NOM_PRENOMS);
+                            +"   -Conjoint : "+ getConjoint();
                 }
                 
                 else if (sens.equals(Sens.PRENOMS_NOM))
@@ -175,7 +189,7 @@ public class Personne implements Entree{
                     return getGenreINIT()+" "+getPrenoms()+" "+getNom()+"\n"
                            +"   -Societe  : "+ societe.getRaisonSociale()+"\n"
                            +"   -Fonction : "+getFonction()+"\n"
-                           +"   -Conjoint : "+ conjoint.toString(presentation.SIMPLE, sens.PRENOMS_NOM);               
+                           +"   -Conjoint : "+ getConjoint();               
                 }
                 else
                     return "Erreur de sens";
@@ -185,10 +199,6 @@ public class Personne implements Entree{
         
     }
     
-    @Override
-    public boolean recherche(String recherche){
-        return false;
-    };
     
     
 }
