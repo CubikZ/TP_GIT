@@ -25,6 +25,7 @@ public class TestLecture {
         carnet.recherche("Ecole");
         carnet.afficher(Ordre.DECROISSANT, Presentation.ABREGE, Sens.NOM_PRENOMS);
         
+        
 
         
     }   
