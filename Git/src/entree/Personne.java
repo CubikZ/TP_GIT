@@ -120,7 +120,7 @@ public class Personne implements Entree{
     {
         fonction=fonction2;
     }
-    public boolean recherche(char lettre) //Recherche si nom ou prenom contient la lettre
+    public boolean recherche(String lettre) //Recherche si nom ou prenom contient la lettre
     {
         String prenomsRecherche=getPrenoms();
         String nomRecherche=getNom();

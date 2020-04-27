@@ -257,41 +257,29 @@ public class Carnet {
     {
         listSelectionnees.clear();
     }
-    public void recherche(char lettre) //Recherche Personne
+    public ArrayList<Entree> recherche(String recherche) //Recherche Personne
     {
-        boolean trouver=false;  //Permet de savoir si on trouve au moins 1 personne
-        System.out.println("la(Les) personne contenant le caractère "+lettre+" sont :");
-        for(int i=0;i<listPersonne.size();i++)
+        ArrayList<Entree> listRecherche = new ArrayList<>();
+        //System.out.println("la(Les) personne contenant le caractère "+lettre+" sont :");
+        for(int i=0;i<listPersonne.size();i++) //On regarde pour les personne
         {
             
-            if(listPersonne.get(i).recherche(lettre)) //Pour pas qu'il traite les société
+            if(listPersonne.get(i).recherche(recherche)) //Pour pas qu'il traite les société
             {
-                System.out.println(listPersonne.get(i).toString(Presentation.ABREGE, Sens.NOM_PRENOMS));
-                trouver=true;
+                listRecherche.add(listPersonne.get(i));
+            }
+            
+        }
+        for (int i=0;i<listSociete.size();i++)  //On regarde pour les societe
+        {
+            if(listSociete.get(i).recherche(recherche))
+            {
+                listRecherche.add(listSociete.get(i));
             }
         }
-        if (trouver==false)
-        {
-            System.out.println("Aucune personne trouvée contenant le caractère "+lettre);
-        }
-    }
-    public void recherche(String raisonSociale) //Recherche Societe
-    {
-        boolean trouver=false; //Permet de savoir si on trouve au moins 1 societe
+        return listRecherche;
         
-        System.out.println("la(Les) société contenant la chaine "+raisonSociale+" sont :");
-        for (int i=0;i<listSociete.size();i++)
-        {
-            if(listSociete.get(i).recherche(raisonSociale))
-            {
-                System.out.println(listSociete.get(i).toString(Presentation.ABREGE, Sens.NOM_PRENOMS));
-                trouver=true;
-            }
-        }
-        if (trouver==false)
-        {
-            System.out.println("Aucune societe trouvée contenant la chaine "+raisonSociale);
-        }
+        
     }
 
     public void afficher(Ordre ordre,Presentation presentation, Sens sens)
